@@ -1,3 +1,9 @@
+This is my first Next.js Project , it was a project for the Secure Software Engineering course. 
+The shema.sql should be uploaded to mysql server and convigure the mysql server settings in the .env file to establish the connection.
+
+The following is how an instructions for how to run the project
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
