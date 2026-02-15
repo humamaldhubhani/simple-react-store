@@ -1,0 +1,41 @@
+# Database Security Enhancements Report
+
+The following security principles and technical measures have been applied to the SynthShield Database to ensure data integrity, privacy, and automated auditing.
+
+## 1. Automated Audit Triggers
+- **trig_audit_user_changes**: 
+    - Principle: Accountability & Monitoring.
+    - Function: Automatically captures and logs any changes made to a user's 'role' or 'status' (Active/Deactivated).
+    - Benefit: Prevents "silent" privilege escalations and provides a tamper-evident audit trail for admin actions.
+
+## 2. Data Integrity Enforcement
+- **trig_check_stock_integrity**:
+    - Principle: Fail-Safe Defaults & Input Validation.
+    - Function: Blocks any attempt to set product stock to a negative value at the database level.
+    - Benefit: Prevents logical errors in the business logic from corrupting order processing and inventory totals.
+
+## 3. Least Privilege Views
+- **view_secure_users**:
+    - Principle: Least Privilege / Information Hiding.
+    - Function: Exposes user metadata while explicitly filtering out the 'password_hash' column.
+    - Benefit: Ensures that standard dashboard listings and API responses don't inadvertently leak sensitive authentication data.
+- **view_available_inventory**:
+    - Principle: Defensive Design.
+    - Function: Filters inventory to show only items currently in stock.
+    - Benefit: Simplifies frontend logic and prevents "ghost" items from appearing in public views.
+
+## 4. Security-focused Indexing
+- **idx_users_security_vitals**:
+    - Composite index on (email, status).
+    - Purpose: Accelerates account status verification during login attempts.
+- **idx_logs_security_audit**:
+    - Composite index on (action, created_at).
+    - Purpose: Enables near-instant scanning of security logs for specific audit events.
+
+## 5. Defensive Schema Constraints
+- **FOREIGN KEY CASCADE/SET NULL**:
+    - Purpose: Ensures referential integrity. When accounts are handled, records are either purged or orphaned safely rather than leaving broken references.
+
+---
+Applied on: 2026-02-15
+Status: ACTIVE
